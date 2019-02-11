@@ -2,6 +2,8 @@ package com.example.newsapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -11,21 +13,41 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.newsapp.utils.AppController;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = this.getClass().getSimpleName();
     private static String URL = "https://newsapi.org/v2/top-headlines?country=us&apiKey=a5fbb8ec5b1e42a0a33d126bb633a736";
-    private TextView textView;
+
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private List<Data> newsList;
+    private NewsAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.tv_response);
+        recyclerView = findViewById(R.id.rv_newsList);
+        newsList = new ArrayList<>();
+        adapter = new NewsAdapter(getApplicationContext(), newsList);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
 
         makeJsonRequest();
     }
@@ -39,13 +61,32 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(" ", "onResponse: " + response);
-                        textView.setText("Success : " + response);
+                        try {
+                            JSONArray articles = response.getJSONArray("articles");
+
+                            for (int i = 0; i < articles.length(); i++){
+                                JSONObject jsonObject = articles.getJSONObject(i);
+
+                                // extract data one by one
+                                Data data = new Data();
+                                data.setTitle(jsonObject.getString("title"));
+                                data.setAuthor(jsonObject.getString("author"));
+                                data.setDate(jsonObject.getString("publishedAt"));
+                                data.setDescription(jsonObject.getString("description"));
+
+                                newsList.add(data);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        adapter.notifyDataSetChanged();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textView.setText("Error : " + error);
+
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
