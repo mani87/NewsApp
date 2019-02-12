@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout linearLayout;
     private LottieAnimationView lottieAnimationView;
+    private android.support.v7.widget.SearchView searchView;
     private List<Data> newsList;
     private NewsAdapter adapter;
     private TextView noSearch;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
         MenuItem search = menu.findItem(R.id.action_search);
-        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) search.getActionView();
+        searchView = (android.support.v7.widget.SearchView) search.getActionView();
         search(searchView);
 
         return super.onCreateOptionsMenu(menu);
@@ -207,6 +207,15 @@ public class MainActivity extends AppCompatActivity {
                 newsList.clear();
                 makeJsonRequest(data.getStringExtra("countryCode"));
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()){
+            searchView.setIconified(true);
+        } else{
+            super.onBackPressed();
         }
     }
 }
