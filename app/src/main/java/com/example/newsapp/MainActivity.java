@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private LottieAnimationView lottieAnimationView;
     private List<Data> newsList;
     private NewsAdapter adapter;
+    private TextView noSearch;
 
 
     @Override
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_newsList);
         linearLayout = findViewById(R.id.ll_main);
         lottieAnimationView = findViewById(R.id.lottie);
+        noSearch = findViewById(R.id.tv_noSearch);
         newsList = new ArrayList<>();
         adapter = new NewsAdapter(getApplicationContext(), newsList);
 
@@ -164,7 +167,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                adapter.updateList(newList);
+                if (newList.size() == 0){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearch.setVisibility(View.VISIBLE);
+                } else{
+                    noSearch.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.updateList(newList);
+                }
                 return false;
             }
         });
