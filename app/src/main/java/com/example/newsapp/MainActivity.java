@@ -1,6 +1,7 @@
 package com.example.newsapp;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,7 +29,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getSimpleName();
-    private static String URL = "https://newsapi.org/v2/top-headlines?country=in&apiKey=a5fbb8ec5b1e42a0a33d126bb633a736";
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -52,12 +53,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        makeJsonRequest();
+        makeJsonRequest("in");
     }
 
 
     // fetch data from endpoint
-    private void makeJsonRequest() {
+    private void makeJsonRequest(String countryCode) {
+
+        String URL = "https://newsapi.org/v2/top-headlines?country=" + countryCode + "&apiKey=a5fbb8ec5b1e42a0a33d126bb633a736";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 URL,
                 null,
@@ -119,12 +123,24 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case R.id.action_country:
                 Intent intent = new Intent(this, SelectCountryActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             case R.id.action_others:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1){
+            if (resultCode == 22){
+                newsList.clear();
+                makeJsonRequest(data.getStringExtra("countryCode"));
+            }
         }
     }
 }
