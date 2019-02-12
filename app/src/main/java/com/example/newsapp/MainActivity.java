@@ -69,13 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
                                 // extract data one by one
                                 Data data = new Data();
+
+                                // bring date in required format dd/mm/yyyy
                                 String[] date = (jsonObject.getString("publishedAt")).split("-");
                                 String year = date[0];
                                 String month = date[1];
                                 String day = date[2].split("T")[0];
 
                                 String author = jsonObject.getString("author");
-                                if (author == "null" || author == null){
+                                if (author == "null" || author == null) {
                                     author = "Source unknown";
                                 }
 
