@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 String day = date[2].split("T")[0];
 
                                 String author = jsonObject.getString("author");
-                                if (author == "null" || author == null) {
+                                if (author.equals("null")) {
                                     author = "Source unknown";
                                 }
 
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         adapter.notifyDataSetChanged();
-
                     }
                 }, new Response.ErrorListener() {
             @Override

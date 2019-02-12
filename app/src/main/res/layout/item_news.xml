@@ -43,8 +43,10 @@
             android:layout_toRightOf="@+id/tv_date"
             android:gravity="end"
             android:text="By Anil Kumar"
+            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_description"
