@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Another theft story in Delhi"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -26,9 +26,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
             android:layout_marginTop="4dp"
+            android:background="@drawable/author_label"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:text="12/02/2019"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_author"
@@ -41,7 +44,7 @@
             android:gravity="end"
             android:text="By Anil Kumar"
             android:textColor="@color/colorAccent"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -50,7 +53,7 @@
             android:layout_below="@+id/tv_author"
             android:layout_marginTop="4dp"
             android:text="This is the description about the news, that can extend upto many lines..."
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

@@ -24,7 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getSimpleName();
-    private static String URL = "https://newsapi.org/v2/top-headlines?country=us&apiKey=a5fbb8ec5b1e42a0a33d126bb633a736";
+    private static String URL = "https://newsapi.org/v2/top-headlines?country=in&apiKey=a5fbb8ec5b1e42a0a33d126bb633a736";
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -64,14 +64,24 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             JSONArray articles = response.getJSONArray("articles");
 
-                            for (int i = 0; i < articles.length(); i++){
+                            for (int i = 0; i < articles.length(); i++) {
                                 JSONObject jsonObject = articles.getJSONObject(i);
 
                                 // extract data one by one
                                 Data data = new Data();
+                                String[] date = (jsonObject.getString("publishedAt")).split("-");
+                                String year = date[0];
+                                String month = date[1];
+                                String day = date[2].split("T")[0];
+
+                                String author = jsonObject.getString("author");
+                                if (author == "null" || author == null){
+                                    author = "Source unknown";
+                                }
+
                                 data.setTitle(jsonObject.getString("title"));
-                                data.setAuthor(jsonObject.getString("author"));
-                                data.setDate(jsonObject.getString("publishedAt"));
+                                data.setAuthor(author);
+                                data.setDate(day + "/" + month + "/" + year);
                                 data.setDescription(jsonObject.getString("description"));
 
                                 newsList.add(data);
