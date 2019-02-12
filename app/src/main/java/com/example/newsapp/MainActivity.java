@@ -1,5 +1,6 @@
 package com.example.newsapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.action_country:
+                Intent intent = new Intent(this, SelectCountryActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_others:
                 return true;
