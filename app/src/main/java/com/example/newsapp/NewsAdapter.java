@@ -1,5 +1,4 @@
 package com.example.newsapp;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -8,17 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
     private Context context;
     private List<Data> newsList;
+    private List<Data> newsListfull;
 
     public NewsAdapter(Context context, List<Data> list) {
         this.context = context;
         this.newsList = list;
+        newsListfull = list;
     }
 
     @NonNull
@@ -42,6 +43,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return newsList.size();
+    }
+
+    public void updateList(List<Data> newList){
+        newsList = new ArrayList<>();
+        newsList.addAll(newList);
+        notifyDataSetChanged();
     }
 
 

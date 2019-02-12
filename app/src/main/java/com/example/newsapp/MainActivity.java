@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,19 +110,64 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+
+        MenuItem search = menu.findItem(R.id.action_search);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) search.getActionView();
+        search(searchView);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    // performs actual filtering
+    private void search(android.support.v7.widget.SearchView searchView) {
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String userInput = s.toLowerCase().trim();
+                List<Data> newList = new ArrayList<>();
+
+                for (Data item : newsList){
+                    if (item.getTitle().toLowerCase().contains(userInput)){
+                        newList.add(item);
+                    }
+                }
+
+                adapter.updateList(newList);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                String userInput = s.toLowerCase().trim();
+                List<Data> newList = new ArrayList<>();
+
+                for (Data item : newsList){
+                    if (item.getTitle().toLowerCase().contains(userInput) ||
+                        item.getDescription().toLowerCase().contains(userInput) ||
+                        item.getAuthor().toLowerCase().contains(userInput)){
+                        newList.add(item);
+                    }
+                }
+
+                adapter.updateList(newList);
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.action_country:
                 Intent intent = new Intent(this, SelectCountryActivity.class);
                 startActivityForResult(intent, 1);
                 return true;
             case R.id.action_others:
+                return true;
+            case R.id.action_search:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -136,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1){
-            if (resultCode == 22){
+        if (requestCode == 1) {
+            if (resultCode == 22) {
                 newsList.clear();
                 makeJsonRequest(data.getStringExtra("countryCode"));
             }
