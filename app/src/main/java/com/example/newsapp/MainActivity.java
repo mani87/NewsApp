@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private LinearLayout linearLayout;
+    private LottieAnimationView lottieAnimationView;
     private List<Data> newsList;
     private NewsAdapter adapter;
 
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.rv_newsList);
+        linearLayout = findViewById(R.id.ll_main);
+        lottieAnimationView = findViewById(R.id.lottie);
         newsList = new ArrayList<>();
         adapter = new NewsAdapter(getApplicationContext(), newsList);
 
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
+        lottieAnimationView.setVisibility(View.VISIBLE);
 
         makeJsonRequest("in");
     }
@@ -65,7 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        lottieAnimationView.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+
                         try {
+
                             JSONArray articles = response.getJSONArray("articles");
 
                             for (int i = 0; i < articles.length(); i++) {
@@ -101,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                lottieAnimationView.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);

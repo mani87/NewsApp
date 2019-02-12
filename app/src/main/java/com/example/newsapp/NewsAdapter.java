@@ -14,12 +14,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
     private Context context;
     private List<Data> newsList;
-    private List<Data> newsListfull;
 
     public NewsAdapter(Context context, List<Data> list) {
         this.context = context;
         this.newsList = list;
-        newsListfull = list;
     }
 
     @NonNull
