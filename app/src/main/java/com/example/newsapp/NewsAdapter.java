@@ -53,13 +53,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             // set custom font to recylerview
             Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "font/quicksand.ttf");
+            Typeface custom_font2 = Typeface.createFromAsset(context.getAssets(), "font/quicksand_medium.ttf");
 
             tvTitle = itemView.findViewById(R.id.tv_title);
-            tvTitle.setTypeface(custom_font);
+            tvTitle.setTypeface(custom_font2);
             tvDate = itemView.findViewById(R.id.tv_date);
             tvDate.setTypeface(custom_font);
             tvAuthor = itemView.findViewById(R.id.tv_author);
-            tvAuthor.setTypeface(custom_font);
+            tvAuthor.setTypeface(custom_font2);
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvDescription.setTypeface(custom_font);
         }
