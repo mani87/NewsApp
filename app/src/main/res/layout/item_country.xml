@@ -6,5 +6,6 @@
     android:layout_margin="16dp"
     android:padding="16sp"
     android:text="India"
+    android:fontFamily="@font/quicksand"
     android:textColor="@android:color/black"
     android:textSize="20sp" />

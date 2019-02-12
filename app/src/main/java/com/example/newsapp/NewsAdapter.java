@@ -1,6 +1,7 @@
 package com.example.newsapp;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private Context context;
     private List<Data> newsList;
 
-    public NewsAdapter(Context context, List<Data> list){
+    public NewsAdapter(Context context, List<Data> list) {
         this.context = context;
         this.newsList = list;
     }
@@ -50,10 +51,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            // set custom font to recylerview
+            Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "font/quicksand.ttf");
+
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvTitle.setTypeface(custom_font);
             tvDate = itemView.findViewById(R.id.tv_date);
+            tvDate.setTypeface(custom_font);
             tvAuthor = itemView.findViewById(R.id.tv_author);
+            tvAuthor.setTypeface(custom_font);
             tvDescription = itemView.findViewById(R.id.tv_description);
+            tvDescription.setTypeface(custom_font);
         }
     }
 }
